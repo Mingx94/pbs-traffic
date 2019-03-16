@@ -1,0 +1,2 @@
+export const STORE_STATUS = 'STORE_STATUS';
+export const VISIBILTY_FILTER = 'VISIBILTY_FILTER';
