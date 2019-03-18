@@ -1,6 +1,11 @@
-# pbs-traffic
+# 警廣即時路況查詢
 
-- 資料來源: [API Endpoint](https://od.moi.gov.tw/MOI/v1/pbs)
+### 資料來源
+
+[API Endpoint](https://od.moi.gov.tw/MOI/v1/pbs)
+
+### 資料說明
+
 - region(路況區域) // "A","N","M","S","E"代表"全","北","中","南","東"
 - srcdetail(資料來源)
 - areaNm(地區區分說明)
@@ -14,3 +19,5 @@
 - comment(路況說明)
 - happendate(發生時間)
 - x1(經度)
+
+> 詳細資訊請參照 https://data.gov.tw/dataset/15221
