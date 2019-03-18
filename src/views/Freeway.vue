@@ -102,7 +102,23 @@
                 {{ traffic.roadtype }}
               </v-chip>
             </v-flex>
+            <v-flex xs12 sm6 class="my-2">
+              <div class="caption grey--text">消息來源</div>
+              <div class="mt-1 body-1">{{ traffic.srcdetail || '-' }}</div>
+            </v-flex>
+            <v-flex xs12 sm6 class="my-2">
+              <div class="caption grey--text">發生時間</div>
+              <div class="mt-1 body-1">
+                <span class="pr-2">
+                  {{ traffic.happentime.replace(/:00\.0000000/, '') }}
+                </span>
+                <span>
+                  {{ traffic.happendate.replace(/-/g, '/') }}
+                </span>
+              </div>
+            </v-flex>
             <v-flex xs12>
+              <div class="caption grey--text">路況說明</div>
               <div class="mt-1 subheading">{{ traffic.comment }}</div>
             </v-flex>
           </v-layout>

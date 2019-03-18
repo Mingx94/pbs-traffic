@@ -7,8 +7,24 @@
         'ma-4': $vuetify.breakpoint.smAndUp,
       }"
     >
-      <router-view></router-view>
+      <router-view />
     </v-content>
+    <v-btn
+      color="error"
+      fixed
+      fab
+      right
+      bottom
+      v-scroll="onScroll"
+      :style="{
+        opacity: btnShow ? 100 : 0,
+        transition: 'opacity 0.25s',
+      }"
+      v-show="btnShow"
+      @click="$vuetify.goTo(1, { duration: 400 })"
+    >
+      <v-icon>keyboard_arrow_up</v-icon>
+    </v-btn>
   </v-app>
 </template>
 
@@ -25,8 +41,14 @@ import Navbar from './components/Navbar.vue';
 })
 export default class App extends Vue {
   @Action('getData') actionGetData!: Function;
+  btnShow = false;
   created() {
     this.actionGetData();
+  }
+  onScroll() {
+    if (typeof window === 'undefined') return;
+    const top = window.pageYOffset || document.documentElement.offsetTop || 0;
+    this.btnShow = top > 300;
   }
 }
 </script>
