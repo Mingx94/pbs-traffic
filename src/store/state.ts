@@ -1,8 +1,8 @@
-import { RootState, TrafficStatus } from './types';
+import { RootState, TrafficStatus } from '../types';
 
 const state: RootState = {
   trafficStatus: [] as TrafficStatus[],
-  visibilityFilter: 'SHOW_FREEWAY',
+  visibilityFilter: 'SHOW_ALL',
 };
 
 export default state;

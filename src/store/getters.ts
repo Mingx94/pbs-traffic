@@ -1,4 +1,4 @@
-import { RootState, TrafficStatus } from './types';
+import { RootState, TrafficStatus } from '../types';
 
 const visibiltyFilter = (
   trafficStatus: TrafficStatus[],

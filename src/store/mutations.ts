@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { RootState, TrafficStatus } from './types';
+import { RootState, TrafficStatus } from '../types';
 import * as mutationTypes from './mutation-types';
 
 const mutations: MutationTree<RootState> = {

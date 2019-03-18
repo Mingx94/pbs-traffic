@@ -1,5 +1,5 @@
 import * as mutationTypes from './mutation-types';
-import { TrafficStatus } from './types';
+import { TrafficStatus } from '../types';
 import { ActionTree } from 'vuex';
 
 const actions: ActionTree<any, any> = {
