@@ -59,12 +59,16 @@
           </v-btn>
         </v-flex>
       </v-layout>
+
+      <div class="text-xs-center my-3">
+        <v-pagination v-model="page" :length="pageLength" />
+      </div>
       <template v-if="statusList.length">
         <v-card flat>
           <v-layout
             row
             wrap
-            v-for="traffic in statusList"
+            v-for="traffic in sliceStatusList"
             :key="traffic.UID"
             class="py-4"
             :class="{
@@ -109,6 +113,9 @@
           <v-card-text class="title pa-4">查無資料</v-card-text>
         </v-card>
       </template>
+      <div class="text-xs-center mt-3">
+        <v-pagination v-model="page" :length="pageLength" />
+      </div>
     </v-container>
   </div>
 </template>
@@ -174,6 +181,9 @@ export default class Freeway extends Vue {
     '8號',
     '10號',
   ];
+
+  page: number = 1;
+  dataPerPage: number = 50;
 
   // methods
   covertRegion(r: RegionList) {
@@ -260,7 +270,9 @@ export default class Freeway extends Vue {
       let condition1 =
         this.regionFilter === 'A' || item.region === this.regionFilter;
       let condition2 =
-        this.directionFilter === '' || item.direction === this.directionFilter;
+        this.directionFilter === '' ||
+        item.direction === '雙向' ||
+        item.direction === this.directionFilter;
       let condition3 =
         this.freewayFilter === '' ||
         freewayRegList[this.freewayFilter].test(item.areaNm);
@@ -269,6 +281,15 @@ export default class Freeway extends Vue {
     };
 
     return this.trafficStatus.filter(filterHandler);
+  }
+  get sliceStatusList() {
+    return this.statusList.slice(
+      (this.page - 1) * this.dataPerPage,
+      this.page * this.dataPerPage
+    );
+  }
+  get pageLength(): number {
+    return Math.ceil(this.statusList.length / this.dataPerPage);
   }
 }
 </script>
