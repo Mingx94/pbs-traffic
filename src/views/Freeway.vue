@@ -63,72 +63,20 @@
       <div class="text-xs-center my-3">
         <v-pagination v-model="page" :length="pageLength" />
       </div>
-      <template v-if="statusList.length">
-        <v-card flat>
-          <v-layout
-            row
-            wrap
+      <v-card flat>
+        <template v-if="statusList.length">
+          <TrafficInfo
             v-for="traffic in sliceStatusList"
             :key="traffic.UID"
-            class="py-4"
-            :class="{
-              'px-3': $vuetify.breakpoint.xs,
-              'px-4': $vuetify.breakpoint.smAndUp,
-            }"
-          >
-            <v-flex xs12 class="pb-2">
-              <v-avatar size="30" class="mr-2">
-                <img :src="textToSign(traffic.areaNm)" :alt="traffic.areaNm" />
-              </v-avatar>
-              <v-chip
-                v-if="traffic.direction"
-                small
-                color="primary"
-                text-color="white"
-                class="subheading"
-              >
-                {{ traffic.direction }}
-              </v-chip>
-              <v-chip
-                v-if="traffic.region"
-                small
-                color="secondary"
-                text-color="white"
-                class="subheading"
-              >
-                {{ covertRegion(traffic.region) }}
-              </v-chip>
-              <v-chip v-if="traffic.roadtype" small class="subheading">
-                {{ traffic.roadtype }}
-              </v-chip>
-            </v-flex>
-            <v-flex xs12 sm6 class="my-2">
-              <div class="caption grey--text">消息來源</div>
-              <div class="mt-1 body-1">{{ traffic.srcdetail || '-' }}</div>
-            </v-flex>
-            <v-flex xs12 sm6 class="my-2">
-              <div class="caption grey--text">發生時間</div>
-              <div class="mt-1 body-1">
-                <span class="pr-2">
-                  {{ traffic.happentime.replace(/:00\.0000000/, '') }}
-                </span>
-                <span>
-                  {{ traffic.happendate.replace(/-/g, '/') }}
-                </span>
-              </div>
-            </v-flex>
-            <v-flex xs12>
-              <div class="caption grey--text">路況說明</div>
-              <div class="mt-1 subheading">{{ traffic.comment }}</div>
-            </v-flex>
-          </v-layout>
-        </v-card>
-      </template>
-      <template v-else>
-        <v-card flat>
+            :traffic="traffic"
+            :covertRegion="covertRegion"
+          />
+        </template>
+        <template v-else>
           <v-card-text class="title pa-4">查無資料</v-card-text>
-        </v-card>
-      </template>
+        </template>
+      </v-card>
+
       <div class="text-xs-center mt-3">
         <v-pagination v-model="page" :length="pageLength" />
       </div>
@@ -141,24 +89,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import * as mutaionTypes from '@/store/mutation-types.ts';
 import { TrafficStatus, RegionList, DirectionList, FreewayList } from '@/types';
-
-const freewayRegList = {
-  '1號': /[1\uFF11][號]/,
-  '1甲': /[1\uFF11][甲]/,
-  '2號': /[2\uFF12][號]/,
-  '2甲': /[2\uFF12][甲]/,
-  '3號': /[3\uFF13][號]/,
-  '3甲': /[3\uFF13][甲]/,
-  '4號': /[4\uFF14][號]/,
-  '5號': /[5\uFF15][號]/,
-  '6號': /[6\uFF16][號]/,
-  '7號': /[7\uFF17][號]/,
-  '8號': /[8\uFF18][號]/,
-  '10號': /[1\uFF11][0\uFF10][號]/,
-};
+import TrafficInfo from '@/components/TrafficInfo.vue';
+import freewayRegList from '@/utils/freewayRegList';
 
 @Component<Freeway>({
   name: 'Freeway',
+  components: {
+    TrafficInfo,
+  },
   beforeRouteEnter(to, from, next) {
     next((vm: Freeway) => {
       vm.$store.commit(mutaionTypes.VISIBILTY_FILTER, 'SHOW_FREEWAY');
@@ -214,45 +152,6 @@ export default class Freeway extends Vue {
         return '南部';
       case 'E':
         return '東部';
-    }
-  }
-  textToSign(name: string) {
-    let number = name.split('國道')[1];
-    if (freewayRegList['1號'].test(number)) {
-      return require('@/assets/Sign/TWHW1.svg');
-    }
-    if (freewayRegList['1甲'].test(number)) {
-      return require('@/assets/Sign/TWHW1a.svg');
-    }
-    if (freewayRegList['2號'].test(number)) {
-      return require('@/assets/Sign/TWHW2.svg');
-    }
-    if (freewayRegList['2甲'].test(number)) {
-      return require('@/assets/Sign/TWHW2a.svg');
-    }
-    if (freewayRegList['3號'].test(number)) {
-      return require('@/assets/Sign/TWHW3.svg');
-    }
-    if (freewayRegList['3甲'].test(number)) {
-      return require('@/assets/Sign/TWHW3a.svg');
-    }
-    if (freewayRegList['4號'].test(number)) {
-      return require('@/assets/Sign/TWHW4.svg');
-    }
-    if (freewayRegList['5號'].test(number)) {
-      return require('@/assets/Sign/TWHW5.svg');
-    }
-    if (freewayRegList['6號'].test(number)) {
-      return require('@/assets/Sign/TWHW6.svg');
-    }
-    if (freewayRegList['7號'].test(number)) {
-      return require('@/assets/Sign/TWHW7.svg');
-    }
-    if (freewayRegList['8號'].test(number)) {
-      return require('@/assets/Sign/TWHW8.svg');
-    }
-    if (freewayRegList['10號'].test(number)) {
-      return require('@/assets/Sign/TWHW10.svg');
     }
   }
   switchRegion(r: RegionList) {

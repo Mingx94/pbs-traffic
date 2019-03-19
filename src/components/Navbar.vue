@@ -8,8 +8,10 @@
         'px-4': $vuetify.breakpoint.smAndUp,
       }"
     >
-      <v-toolbar-title class="text-uppercase grey--text--darken-1">
-        <span class="font-weight-bold">警廣路況查詢</span>
+      <v-toolbar-title>
+        <router-link to="/" class="toolbar-title grey--text text--darken-2">
+          警廣路況查詢
+        </router-link>
       </v-toolbar-title>
       <v-spacer />
       <v-menu offset-y>
@@ -53,3 +55,8 @@ export default class Navbar extends Vue {
   ];
 }
 </script>
+<style scoped>
+.toolbar-title {
+  text-decoration: inherit;
+}
+</style>
