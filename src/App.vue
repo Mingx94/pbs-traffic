@@ -9,22 +9,20 @@
     >
       <router-view />
     </v-content>
-    <v-btn
-      color="error"
-      fixed
-      fab
-      right
-      bottom
-      v-scroll="onScroll"
-      :style="{
-        opacity: btnShow ? 100 : 0,
-        transition: 'opacity 0.25s',
-      }"
-      v-show="btnShow"
-      @click="$vuetify.goTo(1, { duration: 400 })"
-    >
-      <v-icon>keyboard_arrow_up</v-icon>
-    </v-btn>
+    <transition name="fade">
+      <v-btn
+        color="error"
+        fixed
+        fab
+        right
+        bottom
+        v-scroll="onScroll"
+        v-show="btnShow"
+        @click="$vuetify.goTo(1, { duration: 400 })"
+      >
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
+    </transition>
   </v-app>
 </template>
 
@@ -60,5 +58,15 @@ export default class App extends Vue {
   .content {
     margin: 15px;
   }
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity 0.3s;
+}
+.fade-leave-active {
+  transition: opacity 0.2s;
 }
 </style>
