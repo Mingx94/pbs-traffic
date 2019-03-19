@@ -9,7 +9,7 @@
     }"
   >
     <v-flex xs12 class="pb-2">
-      <v-avatar size="30" class="mr-2">
+      <v-avatar v-if="isFreeway === ''" size="30" class="mr-2">
         <img :src="textToSign(traffic.areaNm)" :alt="traffic.areaNm" />
       </v-avatar>
       <v-chip
@@ -29,6 +29,15 @@
         class="subheading"
       >
         {{ covertRegion(traffic.region) }}
+      </v-chip>
+      <v-chip
+        v-if="traffic.areaNm && isFreeway !== ''"
+        small
+        color="green"
+        text-color="white"
+        class="subheading"
+      >
+        {{ traffic.areaNm }}
       </v-chip>
       <v-chip v-if="traffic.roadtype" small class="subheading">
         {{ traffic.roadtype }}
@@ -65,8 +74,9 @@ import freewayRegList from '@/utils/freewayRegList';
   name: 'TrafficInfo',
 })
 export default class TrafficInfo extends Vue {
-  @Prop(Object) traffic!: TrafficStatus;
-  @Prop(Function) covertRegion!: (r: RegionList) => string;
+  @Prop(Object) readonly traffic!: TrafficStatus;
+  @Prop(Function) readonly covertRegion!: (r: RegionList) => string;
+  @Prop({ default: null }) readonly isFreeway!: null | '';
 
   textToSign(name: string) {
     let number = name.split('國道')[1];

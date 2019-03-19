@@ -50,8 +50,9 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Navbar extends Vue {
   drawer: boolean = false;
   links = [
-    { icon: 'home', text: '首頁', route: '/' },
-    { icon: 'directions_car', text: '高速公路', route: '/freeway' },
+    // { icon: 'home', text: '首頁', route: '/' },
+    { icon: 'directions_car', text: '高速公路', route: '/' },
+    { icon: 'motorcycle', text: '平面道路', route: '/non-freeway' },
   ];
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div class="freeway">
+  <div class="non-freeway">
     <v-container>
       <div class="px-2">
-        <h1 class="headline font-weight-bold">高速公路路況</h1>
+        <h1 class="headline font-weight-bold">平面道路路況</h1>
         <p class="grey--text">
           資料來源與警廣即時路況查詢網頁至多有1分鐘的時間差，每次取得最後更新的1000筆路況資料
         </p>
@@ -38,22 +38,7 @@
             </template>
           </v-select>
         </v-flex>
-        <v-flex xs6 md3 class="px-2">
-          <v-select
-            label="國道"
-            :items="freewayList"
-            :value="freewayFilter"
-            @change="onFreewayChange"
-          >
-            <template slot="selection" slot-scope="data">
-              {{ data.item || '全部' }}
-            </template>
-            <template slot="item" slot-scope="data">
-              {{ data.item || '全部' }}
-            </template>
-          </v-select>
-        </v-flex>
-        <v-flex xs6 md3 class="px-2">
+        <v-flex offset-xs6 offset-md3 xs6 md3 class="px-2">
           <v-btn color="warning" block large @click="initializeFilter">
             清除選項
           </v-btn>
@@ -70,7 +55,6 @@
             :key="traffic.UID"
             :traffic="traffic"
             :covertRegion="covertRegion"
-            isFreeway
           />
         </template>
         <template v-else>
@@ -93,18 +77,18 @@ import { TrafficStatus, RegionList, DirectionList, FreewayList } from '@/types';
 import TrafficInfo from '@/components/TrafficInfo.vue';
 import freewayRegList from '@/utils/freewayRegList';
 
-@Component<Freeway>({
-  name: 'Freeway',
+@Component<NonFreeway>({
+  name: 'NonFreeway',
   components: {
     TrafficInfo,
   },
   beforeRouteEnter(to, from, next) {
-    next((vm: Freeway) => {
-      vm.$store.commit(mutaionTypes.VISIBILTY_FILTER, 'SHOW_FREEWAY');
+    next((vm: NonFreeway) => {
+      vm.$store.commit(mutaionTypes.VISIBILTY_FILTER, 'SHOW_NON_FREEWAY');
     });
   },
 })
-export default class Freeway extends Vue {
+export default class NonFreeway extends Vue {
   @Getter('showingList') trafficStatus!: TrafficStatus[];
 
   regionFilter: RegionList = 'A';
@@ -118,23 +102,6 @@ export default class Freeway extends Vue {
     '東向',
     '西行',
     '雙向',
-  ];
-
-  freewayFilter: FreewayList = '';
-  readonly freewayList: FreewayList[] = [
-    '',
-    '1號',
-    '1甲',
-    '2號',
-    '2甲',
-    '3號',
-    '3甲',
-    '4號',
-    '5號',
-    '6號',
-    '7號',
-    '8號',
-    '10號',
   ];
 
   page: number = 1;
@@ -161,22 +128,14 @@ export default class Freeway extends Vue {
   onDirectionChange(d: DirectionList) {
     this.directionFilter = d;
   }
-  onFreewayChange(f: FreewayList) {
-    this.freewayFilter = f;
-  }
   initializeFilter() {
-    this.freewayFilter = '';
     this.directionFilter = '';
     this.regionFilter = 'A';
   }
 
   // computed
   get statusList(): TrafficStatus[] {
-    if (
-      this.regionFilter === 'A' &&
-      this.directionFilter === '' &&
-      this.freewayFilter === ''
-    ) {
+    if (this.regionFilter === 'A' && this.directionFilter === '') {
       return this.trafficStatus;
     }
     let filterHandler = (item: TrafficStatus) => {
@@ -186,11 +145,8 @@ export default class Freeway extends Vue {
         this.directionFilter === '' ||
         item.direction === '雙向' ||
         item.direction === this.directionFilter;
-      let condition3 =
-        this.freewayFilter === '' ||
-        freewayRegList[this.freewayFilter].test(item.areaNm);
 
-      return condition1 && condition2 && condition3;
+      return condition1 && condition2;
     };
 
     return this.trafficStatus.filter(filterHandler);

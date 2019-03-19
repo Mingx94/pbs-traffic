@@ -1,13 +1,12 @@
 <template>
   <div class="home">
-    <h1 class="text-xs-center">警廣路況查詢</h1>
     <v-container>
-      <v-layout align-center column justify-center style="height: 100%">
-        <v-btn color="primary" large class="mb-5" to="/freeway">
-          國道路況
-        </v-btn>
-        <v-btn color="primary" large> 平面道路 </v-btn>
-      </v-layout>
+      <v-btn color="primary" large to="/freeway">
+        高速公路
+      </v-btn>
+      <v-btn color="primary" large to="/non-freeway">
+        平面道路
+      </v-btn>
     </v-container>
   </div>
 </template>
@@ -26,6 +25,6 @@ export default class Home extends Vue {
   height: 100%;
 }
 .container {
-  height: 100%;
+  height: 70%;
 }
 </style>

@@ -1,20 +1,22 @@
 import { RootState, TrafficStatus } from '../types';
 
-const visibiltyFilter = (
+const showFreeway = (
   trafficStatus: TrafficStatus[],
-  showing: string
+  show: boolean
 ): TrafficStatus[] => {
-  const pattern = RegExp(showing, 'g');
-  return trafficStatus.filter(item => pattern.test(item.areaNm));
+  const pattern = RegExp('國道');
+  return trafficStatus.filter(item =>
+    show ? pattern.test(item.areaNm) : !pattern.test(item.areaNm)
+  );
 };
 
 const getters = {
   showingList: (state: RootState) => {
     switch (state.visibilityFilter) {
-      case 'SHOW_ALL':
-        return state.trafficStatus;
+      case 'SHOW_NON_FREEWAY':
+        return showFreeway(state.trafficStatus, false);
       case 'SHOW_FREEWAY':
-        return visibiltyFilter(state.trafficStatus, '國道');
+        return showFreeway(state.trafficStatus, true);
       default:
         return state.trafficStatus;
     }
