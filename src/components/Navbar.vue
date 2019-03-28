@@ -14,29 +14,21 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer />
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn color="primary" flat v-on="on">
-            <v-icon left>menu</v-icon>
-            <span>選單</span>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-tile
-            v-for="link in links"
-            :key="link.text"
-            router
-            :to="link.route"
-          >
-            <v-list-tile-action>
-              <v-icon>{{ link.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ link.text }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <v-toolbar-items>
+        <v-btn
+          flat
+          v-for="link in links"
+          :key="link.text"
+          :to="link.route"
+          class="nav-button"
+          :class="{
+            'px-0': $vuetify.breakpoint.xsOnly,
+          }"
+        >
+          <v-icon>{{ link.icon }}</v-icon>
+          <span class="pl-2 hidden-sm-and-down">{{ link.text }}</span>
+        </v-btn>
+      </v-toolbar-items>
     </v-toolbar>
   </nav>
 </template>
@@ -50,8 +42,8 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Navbar extends Vue {
   drawer: boolean = false;
   links = [
-    // { icon: 'home', text: '首頁', route: '/' },
-    { icon: 'directions_car', text: '高速公路', route: '/' },
+    { icon: 'home', text: '首頁', route: '/' },
+    { icon: 'directions_car', text: '高速公路', route: '/freeway' },
     { icon: 'motorcycle', text: '平面道路', route: '/non-freeway' },
   ];
 }
@@ -59,5 +51,11 @@ export default class Navbar extends Vue {
 <style scoped>
 .toolbar-title {
   text-decoration: inherit;
+}
+
+@media (max-width: 599.5px) {
+  .nav-button {
+    min-width: 50px;
+  }
 }
 </style>

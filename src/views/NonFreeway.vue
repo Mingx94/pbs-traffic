@@ -45,7 +45,7 @@
         </v-flex>
       </v-layout>
 
-      <div class="text-xs-center my-3">
+      <div class="text-xs-center my-3" v-if="pageLength > 1">
         <v-pagination v-model="page" :length="pageLength" />
       </div>
       <v-card flat>
@@ -62,7 +62,7 @@
         </template>
       </v-card>
 
-      <div class="text-xs-center mt-3">
+      <div class="text-xs-center mt-3" v-if="pageLength > 1">
         <v-pagination v-model="page" :length="pageLength" />
       </div>
     </v-container>
@@ -124,9 +124,11 @@ export default class NonFreeway extends Vue {
   }
   onRegionChange(r: RegionList) {
     this.regionFilter = r;
+    this.page = 1;
   }
   onDirectionChange(d: DirectionList) {
     this.directionFilter = d;
+    this.page = 1;
   }
   initializeFilter() {
     this.directionFilter = '';
